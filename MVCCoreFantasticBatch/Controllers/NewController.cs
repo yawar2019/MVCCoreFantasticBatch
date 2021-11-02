@@ -138,7 +138,7 @@ namespace MVCCoreFantasticBatch.Controllers
             DepartmentModel dept2 = new DepartmentModel();
             dept2.DeptId = 1212;
             dept2.DeptName = "Network";
-
+             
             listDept.Add(dept);
             listDept.Add(dept2);
 
