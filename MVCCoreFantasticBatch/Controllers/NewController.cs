@@ -145,7 +145,7 @@ namespace MVCCoreFantasticBatch.Controllers
             EmpDept empdept = new EmpDept();
             empdept.Emp =listEmp;
             empdept.dept =listDept;
-
+             
 
             return View(empdept);
         }
