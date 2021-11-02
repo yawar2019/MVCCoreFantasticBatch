@@ -1,0 +1,22 @@
+﻿@model List<EmployeeModel>
+@{
+    ViewData["Title"] = "GetMultipleDataView2";
+}
+
+<h1>GetMultipleDataView2</h1>
+
+<table class="table table-bordered table-danger">
+    <tr>
+        <th>EmpId</th>
+        <th>Name</th>
+        <th>Salary</th>
+    </tr>
+    @foreach (var item in Model)//3
+    {
+        <tr>
+            <td>@item.EmpId</td>
+            <td>@item.EmpName</td>
+            <td>@item.EmpSalary</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "GetMultipleDataView";
+}
+
+<h1>GetMultipleDataView</h1>
+
+<table class="table table-bordered table-primary">
+    <tr>
+        <th>EmpId</th>
+        <th>Name</th>
+        <th>Salary</th>
+    </tr>
+    @foreach (var item in ViewBag.info)//3
+    {
+        <tr>
+            <td>@item.EmpId</td>
+            <td>@item.EmpName</td>
+            <td>@item.EmpSalary</td>
+        </tr>
+    }
+</table>
