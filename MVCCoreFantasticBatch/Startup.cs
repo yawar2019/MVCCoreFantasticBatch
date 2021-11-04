@@ -36,7 +36,7 @@ namespace MVCCoreFantasticBatch
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
+           app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -45,8 +45,16 @@ namespace MVCCoreFantasticBatch
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "default1",
+                    pattern: "Assam/tea",
+                    defaults:new { controller="new",action="getmeview"}
+                    );
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapDefaultControllerRoute();
             });
         }
     }
