@@ -36,6 +36,8 @@ namespace MVCCoreFantasticBatch.Controllers
             return View();
         }
 
+        [Route("Srilanka/Roti/{id:int}")]
+        [Route("Srilanka/biryani")]
         public IActionResult GetMultipleDataView()
         {
             List<EmployeeModel> listEmp = new List<EmployeeModel>();

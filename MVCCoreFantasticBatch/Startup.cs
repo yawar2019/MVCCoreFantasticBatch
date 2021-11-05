@@ -29,7 +29,7 @@ namespace MVCCoreFantasticBatch
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
+            {///s
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -46,7 +46,7 @@ namespace MVCCoreFantasticBatch
             {
                 endpoints.MapControllerRoute(
                     name: "default1",
-                    pattern: "Assam/tea",
+                    pattern: "Assam/tea/{id:range(10,50)?}",
                     defaults:new { controller="new",action="getmeview"}
                     );
 
@@ -59,3 +59,12 @@ namespace MVCCoreFantasticBatch
         }
     }
 }
+
+
+//alpha string
+//int,long numbers {id:int}
+//bool true
+//decimal,double,float
+//guid 
+//id:max(10)
+//{ id: range(10, 50) ?}
