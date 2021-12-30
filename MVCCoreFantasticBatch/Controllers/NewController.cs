@@ -2,9 +2,11 @@
 using MVCCoreFantasticBatch.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Dapper;
 namespace MVCCoreFantasticBatch.Controllers
 {
     public class NewController : Controller
@@ -45,7 +47,7 @@ namespace MVCCoreFantasticBatch.Controllers
 
             EmployeeModel emp = new EmployeeModel();
             emp.EmpId = 1;
-            emp.EmpName = "Imtiyaz";
+            emp.EmpName = "Imtiyaz"; 
             emp.EmpSalary = 193836;
 
 
@@ -176,5 +178,37 @@ namespace MVCCoreFantasticBatch.Controllers
 
             return RedirectToAction("Agreememt", "Home",new {id=1211});
         }
+
+        public ActionResult Index5()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=AZAM-PC\SQLEXPRESS;Initial catalog=Employee;Integrated Security=true");
+
+            var Designation = con.Query<Designationdet>("sp_getDesignation", commandType: CommandType.StoredProcedure).ToList();
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Index5(string Prefix)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=AZAM-PC\SQLEXPRESS;Initial catalog=Employee;Integrated Security=true");
+
+            var Designation = con.Query<Designationdet>("sp_getDesignation", commandType: CommandType.StoredProcedure).ToList();
+
+            var Name = (from N in Designation
+                        where N.Designation.ToLower().StartsWith(Prefix.ToLower())
+                        select new { N.Designation });
+
+            return Json(Name);
+        }
+
+        
     }
+    public class Designationdet
+    {
+        public int Id { get; set; }
+        public string Designation { get; set; }
+    }
+
 }
