@@ -13,10 +13,19 @@ namespace MVCCoreFantasticBatch
 {
     public class Startup
     {
+        public static string _UserName { get; set; }
+        public static string _Password { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+        public Startup(string Name, string Password)
+        {
+            _UserName = Name;
+            _Password = Password;
+        }
+
 
         public IConfiguration Configuration { get; }
 

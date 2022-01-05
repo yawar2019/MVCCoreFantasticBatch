@@ -7,10 +7,19 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using MVCCoreFantasticBatch.Repository;
 namespace MVCCoreFantasticBatch.Controllers
 {
     public class NewController : Controller
     {
+        [HttpGet]
+        public ActionResult Dashboard()
+        {
+            LoginRepository r = new LoginRepository();
+            var resultSection1 = r.GetSection1();
+
+            return Content("Connected2");
+        }
         public string Index()
         {
             return "Hello World";
