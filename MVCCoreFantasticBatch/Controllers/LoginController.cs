@@ -68,7 +68,7 @@ namespace MVCCoreFantasticBatch.Controllers
         public ActionResult Dashboard()
         {
             ViewBag.UserName = HttpContext.User.Identity.Name;
-            ViewBag.IpAddress = new SelectList(GetIpAddress(), "IpAddress", "Location");
+            ViewBag.IPAddress = new SelectList(GetIpAddress(), "IPAddress", "Location");
             return View();
         }
 
@@ -84,16 +84,28 @@ namespace MVCCoreFantasticBatch.Controllers
             //Initializing Remote Connection Call only 1st time
             string RemoteConn = LoginRepository.GetRemoteConnected(Ipaddressdet);
 
-            LoginRepository r = new LoginRepository();
-            var resultSection1 = r.GetSection1();
+            var resultSection1 = _loginrepository.GetSection1();
 
+            SessionLogModel sessionLog = new SessionLogModel();
+            sessionLog.IpAddressTo = Ipdet.IPAddress;
+            sessionLog.IpAddressFrom = Ipdet.IPAddress;
+            sessionLog.UserId = Convert.ToString(GetPno());
+            sessionLog.UserName = HttpContext.User.Identity.Name;
+            sessionLog.Location = "Imtiaz House";
+            sessionLog.DeviceId = "3xdr24567";
+
+
+            var SessionLogIn = _loginrepository.SaveSessionLogIn(sessionLog);
             return Content("connected");
         }
 
         public IActionResult SignOut()
         {
+
             HttpContext.SignOutAsync(
              CookieAuthenticationDefaults.AuthenticationScheme);
+            var SessionLogOut = _loginrepository.SaveSessionLogOut(GetPno());
+
             return RedirectToAction("Login");
         }
         public List<IPAddressModel> GetIpAddress()
@@ -110,6 +122,21 @@ namespace MVCCoreFantasticBatch.Controllers
             var Ipaddress = _loginrepository.GetIpAddressByPno(pno);
 
             return Ipaddress;
+        }
+
+
+        public int GetPno()
+        {
+            int pno = 0;
+            foreach (var item in HttpContext.User.Claims)
+            {
+                if (item.Type.Substring(54) == "sid")
+                {
+                    pno = Convert.ToInt32(item.Value);
+                }
+            }
+
+            return pno;
         }
     }
 }

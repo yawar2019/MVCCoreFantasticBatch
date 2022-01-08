@@ -11,7 +11,7 @@ using Settings;
 
 namespace MVCCoreFantasticBatch.Repository
 {
-    public class LoginRepository : ConnectionSetting
+    public class LoginRepository
     {
 
         static string ConnectionString = DbConnections.ConnectionString;
@@ -42,7 +42,7 @@ namespace MVCCoreFantasticBatch.Repository
         public IPAddressModel GetAllIpAddress(IPAddressModel Ipdet)
         {
             var param = new DynamicParameters();
-            param.Add("@Ipaddress", Ipdet.IpAddress);
+            param.Add("@Ipaddress", Ipdet.IPAddress);
             var Ipaddressdet = primarycon.QuerySingle<IPAddressModel>("[usp_GetDbConnectionByIpaddress]", param: param, commandType: CommandType.StoredProcedure);
             return Ipaddressdet;
         }
@@ -57,10 +57,51 @@ namespace MVCCoreFantasticBatch.Repository
 
 
 
-        public   List<Section> GetSection1()
-        { 
-             var Sectiondet = RemoteCon.Query<Section>("SectionProc1", commandType: CommandType.StoredProcedure).ToList();
+        public List<Section> GetSection1()
+        {
+            var Sectiondet = RemoteCon.Query<Section>("SectionProc1", commandType: CommandType.StoredProcedure).ToList();
             return Sectiondet;
+        }
+
+        public int SaveSessionLogIn(SessionLogModel slm)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Location", slm.Location);
+            param.Add("@IpAddressFrom", slm.IpAddressFrom);
+            param.Add("@IpAddressTo", slm.IpAddressTo);
+            param.Add("@DeviceId", slm.DeviceId);
+            param.Add("@UserId", slm.UserId);
+            param.Add("@UserName", slm.UserName);
+            int resultLocal = primarycon.Execute("usp_InsertSessionLog", param: param, commandType: CommandType.StoredProcedure);
+            int resultRemote = RemoteCon.Execute("usp_InsertSessionLog", param: param, commandType: CommandType.StoredProcedure);
+            if (resultLocal > 0 && resultRemote > 0)
+            {
+                return resultRemote;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        public int SaveSessionLogOut(int UserId)
+        {
+            var param = new DynamicParameters();
+          
+            param.Add("@UserId", UserId);
+            
+            int resultLocal = primarycon.Execute("usp_SessionLogOut", param: param, commandType: CommandType.StoredProcedure);
+            int resultRemote = RemoteCon.Execute("usp_SessionLogOut", param: param, commandType: CommandType.StoredProcedure);
+            if (resultLocal > 0 && resultRemote > 0)
+            {
+                return resultRemote;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
     }
 }

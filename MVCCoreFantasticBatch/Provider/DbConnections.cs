@@ -12,7 +12,7 @@ namespace MVCCoreFantasticBatch.Provider
         public static string ConnectionString = ConnectionSetting.GetConnectionString();
         public static string GetRemoteConnected(IPAddressModel Ip)
         {
-            string RemoteConnectionString = ConnectionSetting.GetRemoteConnectionString(Ip.IpAddress, Ip.UserName, Ip.Pwd);
+            string RemoteConnectionString = ConnectionSetting.GetRemoteConnectionString(Ip.IPAddress, Ip.UserName, Ip.Pwd);
             return RemoteConnectionString;
         }
 

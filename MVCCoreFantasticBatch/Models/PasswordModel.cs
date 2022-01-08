@@ -19,7 +19,7 @@ namespace MVCCoreFantasticBatch.Models
     public class IPAddressModel
     {
         public int IPid { get; set; }
-        public string IpAddress { get; set; }
+        public string IPAddress { get; set; }
         public string Pwd { get; set; }
         public string Location { get; set; }
         public string UserName { get; set; }
